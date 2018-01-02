@@ -22,7 +22,7 @@ function requestUserUploadsPlaylistId() {
 
 // Retrieve the list of videos in the specified playlist.
 function requestVideoPlaylist(playlistId, pageToken) {
-  $('#video-container').html('');
+  //$('#video-container').html('');
   var requestOptions = {
     playlistId: playlistId,
     part: 'snippet',
@@ -37,10 +37,10 @@ function requestVideoPlaylist(playlistId, pageToken) {
     // next or previous page of results.
     nextPageToken = response.result.nextPageToken;
     var nextVis = nextPageToken ? 'visible' : 'hidden';
-    $('#next-button').css('visibility', nextVis);
+    //$('#next-button').css('visibility', nextVis);
     prevPageToken = response.result.prevPageToken
     var prevVis = prevPageToken ? 'visible' : 'hidden';
-    $('#prev-button').css('visibility', prevVis);
+    //$('#prev-button').css('visibility', prevVis);
 
     var playlistItems = response.result.items;
     if (playlistItems) {
@@ -50,6 +50,10 @@ function requestVideoPlaylist(playlistId, pageToken) {
     } else {
       $('#video-container').html('Sorry you have no uploaded videos');
     }
+	if(nextPageToken)
+	{
+		requestVideoPlaylist(playlistId, nextPageToken);
+	}
   });
 }
 
