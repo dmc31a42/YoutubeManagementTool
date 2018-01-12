@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html ng-app>
   <head>
     <title>Say hello using the People API</title>
     <meta charset='utf-8' />
+	<link type="text/css" rel="stylesheet" href="index.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   </head>
   <body>
-<script src="index.js"></script>
 
 <button id="sign-in-or-out-button"
         style="margin-left: 25px">Sign In/Authorize</button>
@@ -17,11 +18,15 @@
         <img id="channel-thumbnail">
         <span id="channel-name"></span>
 		
-		<div id="playlists-container"></div>
+		<ul id="playlists-container" class="sortable"></ul>
 </div>
 
 <script src="client_secrets.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+<script src="https://rawgithub.com/shvetsgroup/jquery.multisortable/master/src/jquery.multisortable.js"></script>
+<script src="index.js"></script>
 <script async defer src="https://apis.google.com/js/api.js" 
         onload="this.onload=function(){};handleClientLoad()" 
         onreadystatechange="if (this.readyState === 'complete') this.onload()">

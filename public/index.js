@@ -37,11 +37,6 @@ function initClient() {
     $('#revoke-access-button').click(function() {
       revokeAccess();
     }); 
-	
-	
-	gapi.client.load('youtube', 'v3', function() {
-		setUserInfo();
-	});
   });
 }
 
@@ -68,11 +63,15 @@ function setSigninStatus(isSignedIn) {
     $('#auth-status').html('You are currently signed in and have granted ' +
         'access to this app.');
 	$('#post-auth').show();
+	gapi.client.load('youtube', 'v3', function() {
+		setUserInfo();
+	});
   } else {
     $('#sign-in-or-out-button').html('Sign In/Authorize');
     $('#revoke-access-button').css('display', 'none');
     $('#auth-status').html('You have not authorized this app or you are ' +
         'signed out.');
+    clearUserInfo();
   }
 }
 
@@ -106,9 +105,9 @@ function setUserInfo()
 				{
 					var playlistName = item.snippet.title;
 					var playlistID = item.id;
-					
+					''
 					$('#playlists-container').append(
-					'<p>[' + playlistID + '] ' + playlistName + '</p>');
+					'<li><div class="myHandle"></div><input type="checkbox">[' + playlistID + '] ' + playlistName + '</li>');
 				})
 			}
 		});
@@ -116,6 +115,20 @@ function setUserInfo()
     }
   });
 }
+
+function clearUserInfo(){
+	$('#channel-name').text('');
+	$('#channel-thumbnail').removeAttr('src');
+	$('#playlists-container').text('');
+}
+
+jQuery(function($){
+	$('ul.sortable').multisortable({
+	placeholder: 'placeholder'
+	});
+	$('ul.sortable').sortable('option',
+	'handle', '.myHandle');
+});
 
 function loadUserUploads()
 {
