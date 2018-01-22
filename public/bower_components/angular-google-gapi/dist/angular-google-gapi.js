@@ -128,6 +128,7 @@
             var DOMAIN = undefined;
             var SCOPE = 'https://www.googleapis.com/auth/userinfo.email';
             var RESPONSE_TYPE = 'token id_token';
+            var GoogleAuth = undefined;
 
             function load(){
                 var deferred = $q.defer();
@@ -156,6 +157,37 @@
                         config.hd = DOMAIN;
                     $window.gapi.auth.authorize(config, authorizeCallback);
                 });
+            }
+
+            function initClient() {
+                var deferred = $q.defer();
+                load().then(function (){
+                     gapi.client.init({
+                         client_id: CLIENT_ID,
+                         scope: SCOPE
+                     }).then(function(){
+                         GoogleAuth = gapi.auth2.getAuthInstance();
+                         deferred.resolve();
+                     });
+                });
+                return deferred.promise;
+            }
+
+            function checkAuth() {
+                var deferred = $q.defer();
+                initClient().then(
+                function() {
+                    if(GoogleAuth.isSignedIn.get()) {
+                        deferred.resolve();
+                    } else {
+                        deferred.reject();
+                    }
+                });
+                return deferred.promise;
+            }
+
+            function signinGoogleAuth() {
+                var deferred = $q.defer();
             }
 
             function offline() {
@@ -195,7 +227,7 @@
                 return deferred.promise;
             }
 
-            function getUser() {
+            /*function getUser() {
 
                 var deferred = $q.defer();
                 $window.gapi.client.oauth2.userinfo.get().execute(function(resp) {
@@ -210,6 +242,15 @@
                         deferred.reject();
                     }
                 });
+                return deferred.promise;
+            }*/
+
+            function getUser() {
+
+                var deferred = $q.defer();
+                var user = GoogleAuth.currentUser.get();
+                GData.getUser(user);
+                deferred.resolve(user);
                 return deferred.promise;
             }
 
@@ -227,7 +268,7 @@
                     SCOPE = scope;
                 },
 
-                checkAuth: function(){
+                /*checkAuth: function(){
                     var deferred = $q.defer();
                     signin(true, function() {
                         getUser().then(function (user) {
@@ -237,9 +278,24 @@
                         });
                     });
                     return deferred.promise;
+                },*/
+
+                checkAuth: function(){
+                    var deferred = $q.defer();
+                    checkAuth().then(function() {
+                        getUser().then(function(){
+                            deferred.resolve();
+                        }, function() {
+                            deferred.reject();
+                        })},
+                        function() {
+                            deferred.reject();
+                        }
+                    );
+                    return deferred.promise;
                 },
 
-                login: function(){
+                /*login: function(){
                     var deferred = $q.defer();
                     signin(false, function() {
                         getUser().then(function (user) {
@@ -248,6 +304,18 @@
                             deferred.reject();
                         });
                     });
+                    return deferred.promise;
+                },*/
+
+                login: function(){
+                    var deferred = $q.defer();
+                    GoogleAuth.signIn().then(
+                        function(){
+                            getUser().then(function(){
+                                deferred.resolve();
+                            }, function(error) {
+                                deferred.reject(error);
+                            });});
                     return deferred.promise;
                 },
 
@@ -272,7 +340,7 @@
                     return deferred.promise;
                 },
 
-                logout: function(){
+                /*logout: function(){
                     var deferred = $q.defer();
                     load().then(function() {
                         $window.gapi.auth.setToken(null);
@@ -281,7 +349,20 @@
                         deferred.resolve();
                     });
                     return deferred.promise;
+                },*/
+
+                logout: function(){
+                    var deferred = $q.defer();
+                    load().then(function() {
+                        GoogleAuth.signOut().then(function(){
+                            GData.isLogin(false);
+                            GData.getUser(null);
+                            deferred.resolve();  
+                        });
+                    });
+                    return deferred.promise;
                 },
+
 
                 offline: function(){
                     var deferred = $q.defer();
@@ -398,7 +479,7 @@
                         return user;
                     user = value;
                     if(value !== null) {
-                        userId = value.id;
+                        userId = value.getId();
                     }
 
                 }
