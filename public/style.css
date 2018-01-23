@@ -7,17 +7,29 @@
 html {
   position: relative;
   min-height: 100%;
+  height:100%
 }
 body {
+  display: flex;
+  flex-direction: column;
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  /* margin-bottom: 60px; */
+  height: 100%;
 }
+.navbar{
+  flex-basis: 50px;
+  border-color: #e7e7e7;
+  position: static;
+  margin-bottom: 0px; */
+}
+
 .footer {
-  position: absolute;
+  /* position: absolute; */
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 60px;
+  /*height: 60px;*/
+  flex-basis: 60px;
   background-color: #f5f5f5;
 }
 
@@ -27,8 +39,20 @@ body {
 /* Not required for template or sticky footer method. */
 
 body > .container {
-  padding: 60px 15px 0;
+  /* padding: 60px 15px 0; */
+  flex-grow: 1;
+  width:100%;
+  margin-right: 0px;
+  margin-left: 0px;
+  display: flex;
+  padding:0px;
 }
+
+body>.container>div{
+  flex-grow:1;
+  display:flex;
+}
+
 .container .text-muted {
   margin: 20px 0;
 }
@@ -37,3 +61,58 @@ body > .container {
   padding-right: 15px;
   padding-left: 15px;
 }
+
+/* div place left, right*/
+/*
+.playlistContainer {
+  float: left;
+}
+.playlistItemsContainer {
+  float: right;
+  */
+.editorContainer{
+  flex-grow:1;
+  display:flex;
+  height: 100%;
+}
+
+.youtubeListContainer {
+  //display:flex;
+  //flex-direction: column;
+  flex-grow: 1;
+  padding-left: 10px;
+  padding-right: 10px;
+  overflow-y: scroll;
+  height:100%;
+}
+
+.youtubeContainer{
+  padding: 10px 10px 0px 0px;
+  border-bottom: 1px solid grey;
+  /* width: 100%; */
+}
+
+.youtubeContent{
+  display:flex;
+  /* width: 100%; */
+}
+
+.youtubeContent>.imageContainer{
+  display: block;
+    flex-basis: 160px;
+    /* width: 160px; */
+}
+
+.youtubeContent>.imageContainer>img{
+  display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.youtubeContent>.youtubeTitleDesc{
+  flex-grow:1;
+  /* padding-left:10px; */
+  /* display: inline-block; */
+  /* height: auto; */
+}
+

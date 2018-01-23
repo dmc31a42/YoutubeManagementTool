@@ -23,7 +23,7 @@ router
                 })
 
                 .state('home', {
-                    url :'/',
+                    url :'/home',
                     views :  {
                         '': {
                             controller: 'angular-google-api-example.controller.home',
@@ -51,5 +51,7 @@ router
                         },
                     },
                 })
+
+                //.otherwise({redirectTo: '/login'})
 
     }])
