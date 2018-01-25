@@ -10,16 +10,14 @@
 			</a>
 		</div>
 	</div>
-	<div class="youtubeListContainer">
-		<div class="youtubeContainer" ng-repeat="playlistItem in playlistItems">
-			<a href="" ng-click="viewDetail(playlistItem)">
-				<div class="youtubeContent">
-					<div class="imageContainer">
-						<img ng-src="{{playlistItem.snippet.thumbnails.medium.url}}">
-					</div>
-					<div class="youtubeTitleDesc">{{playlistItem.snippet.title}}</div>
+	<div class="youtubeListContainer" ui-sortable="sortableOptions" ng-model="playlistItems">
+		<div class="youtubeContainer" ui-sortable-selectable ng-repeat="playlistItem in playlistItems" ng-click="viewDetailVideo(playlistItem)">
+			<div class="youtubeContent">
+				<div class="imageContainer">
+					<img ng-src="{{playlistItem.snippet.thumbnails.medium.url}}">
 				</div>
-			</a>
+				<div class="youtubeTitleDesc">{{playlistItem.snippet.title}}</div>
+			</div>
 		</div>
 	</div>
 	<div class="youtubeListContainer">

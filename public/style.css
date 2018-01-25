@@ -92,6 +92,10 @@ body>.container>div{
   /* width: 100%; */
 }
 
+.youtubeContainer.ui-sortable-selected {
+  background-color: yellow;
+}
+
 .youtubeContent{
   display:flex;
   /* width: 100%; */

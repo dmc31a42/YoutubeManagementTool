@@ -1,7 +1,7 @@
-var controller = angular.module('angular-google-api-example.controller.home', []);
+var controller = angular.module('angular-google-api-example.controller.home', ['ui.sortable','ui.sortable.multiselection']);
 
-controller.controller('angular-google-api-example.controller.home', ['$scope', 'GApi', 'GAuth',
-    function homeCtl($scope, GApi, GAuth) {
+controller.controller('angular-google-api-example.controller.home', ['$scope', 'GApi', 'GAuth', 'uiSortableMultiSelectionMethods',
+    function homeCtl($scope, GApi, GAuth, uiSortableMultiSelectionMethods) {
 
         GAuth.checkAuth().then(function(){
             GApi.load('youtube', 'v3').then(function() {
@@ -54,5 +54,29 @@ controller.controller('angular-google-api-example.controller.home', ['$scope', '
                 loadPlaylistItemsListRepeat();
             });
         };
+
+        $scope.sortableOptions = uiSortableMultiSelectionMethods.extendOptions({
+        //'multiSelectOnClick': true,
+            stop: function(e, ui) {
+              // this callback has the changed model
+              var logEntry = $scope.playlistItems.map(function(i) {
+                  return i.id;
+              }).join('\n');
+              console.log(logEntry);
+            }
+          });
+
+        angular.element('[ui-sortable]').on('ui-sortable-selectionschanged', function(e, args){
+            var $this = $(this);
+            var selectedItemIndexes = $this.find('.ui-sortable-selected').map(function(i, element){
+                return $(this).index();
+            }).toArray();
+            console.log(selectedItemIndexes);
+            var selectedItems = $.map(selectedItemIndexes, function(i) {
+                return $scope.playlistItems[i]
+            });
+            console.log(selectedItems);
+            $scope.selectedItem = selectedItems;
+        });
     }
 ]);
