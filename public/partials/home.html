@@ -21,6 +21,14 @@
 		</div>
 	</div>
 	<div class="youtubeListContainer">
-		
+		<div ng-show="selectedItemUniqueKinds.indexOf('youtube#playlistItem')>-1">
+			<div ng-show="selectedItems.length==1">
+				<iframe ng-if="selectedItems.length==1" width="560" height="315" ng-src="{{selectedItemVideoURL}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+				<div>title</div>
+				<input type="text" value="{{selectedItems[0].snippet.title}}">
+				<div>description</div>
+				<input type="text" value="{{selectedItems[0].snippet.description}}">
+			</div>
+		</div>
 	</div>
 </div>
