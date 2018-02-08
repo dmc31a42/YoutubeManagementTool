@@ -23,11 +23,16 @@
 	<div class="youtubeListContainer">
 		<div ng-show="selectedItemUniqueKinds.indexOf('youtube#playlistItem')>-1">
 			<div ng-show="selectedItems.length==1">
+				<div ng-show="IsInputChanged()">
+					Apply modification<button ng-click="applyDifference()">Apply</button>
+				</div>
 				<iframe ng-if="selectedItems.length==1" width="560" height="315" ng-src="{{selectedItemVideoURL}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 				<div>title</div>
-				<input type="text" value="{{selectedItems[0].snippet.title}}">
+				<input type="text"  ng-model="selectedItemInput.title">
 				<div>description</div>
-				<input type="text" value="{{selectedItems[0].snippet.description}}">
+				<input type="text" ng-model="selectedItemInput.description">
+				<div>categoryid</div>
+				<input type="text"
 			</div>
 		</div>
 	</div>
